@@ -1,0 +1,841 @@
+[
+  {
+    "cyrillic": "аа",
+    "traditional": "ᠢᠶᠠᠨ",
+    "latin": "iyan",
+    "sense": "reflexive-possessive",
+    "attach": "consonant",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 16-17"
+  },
+  {
+    "cyrillic": "аа",
+    "traditional": "ᠨ᠎ᠠ",
+    "latin": "n-a",
+    "sense": "Forms locational adverbs from spatial roots",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "аа",
+    "traditional": "ᠪᠠᠨ",
+    "latin": "ban",
+    "sense": "reflexive-possessive",
+    "attach": "vowel",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 16-17"
+  },
+  {
+    "cyrillic": "аар",
+    "traditional": "ᠢᠶᠠᠷ",
+    "latin": "iyar",
+    "sense": "instrumental",
+    "attach": "consonant",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "аар",
+    "traditional": "ᠪᠠᠷ",
+    "latin": "bar",
+    "sense": "instrumental",
+    "attach": "vowel",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "аас",
+    "traditional": "ᠠᠴᠠ",
+    "latin": "acha",
+    "sense": "ablative",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "аасай",
+    "traditional": "ᠭᠠᠰᠠᠢ",
+    "latin": "ɣasai",
+    "sense": "Used to mark the desiderative mood.",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "аач",
+    "traditional": "ᠭᠠᠴᠢ",
+    "latin": "ɣači",
+    "sense": "Used to mark the precative mood.",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "вал",
+    "traditional": "ᠪᠠᠯ",
+    "latin": "bal",
+    "sense": "The conditional converb.",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "г",
+    "traditional": "ᠢᠡ᠋",
+    "latin": "ie",
+    "sense": "Forms nouns from verbs.",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "г",
+    "traditional": "ᠬ",
+    "latin": "k",
+    "sense": "Forms nouns from verbs.",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "г",
+    "traditional": "ᠶᠢ",
+    "latin": "yi",
+    "sense": "accusative",
+    "attach": "vowel",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 15"
+  },
+  {
+    "cyrillic": "гаа",
+    "traditional": "ᠪᠠᠨ",
+    "latin": "ban",
+    "sense": "reflexive-possessive",
+    "attach": "vowel",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 16-17"
+  },
+  {
+    "cyrillic": "гаар",
+    "traditional": "ᠪᠠᠷ",
+    "latin": "bar",
+    "sense": "instrumental",
+    "attach": "vowel",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "гдах",
+    "traditional": "ᠭᠳᠠᠬᠤ",
+    "latin": "ɣdaqu",
+    "sense": "passive forming suffix.",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "гийн",
+    "traditional": "ᠶᠢᠨ",
+    "latin": "yin",
+    "sense": "genitive",
+    "attach": "vowel",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 15"
+  },
+  {
+    "cyrillic": "гоо",
+    "traditional": "ᠪᠠᠨ",
+    "latin": "ban",
+    "sense": "reflexive-possessive",
+    "attach": "vowel",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 16-17"
+  },
+  {
+    "cyrillic": "гоор",
+    "traditional": "ᠪᠠᠷ",
+    "latin": "bar",
+    "sense": "instrumental",
+    "attach": "vowel",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "гч",
+    "traditional": "ᠠᠠᠴ᠊ᠢ",
+    "latin": "aač-i",
+    "sense": "Forms agentive participles from verbs.",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "гч",
+    "traditional": "ᢉᠴ᠊ᠢ",
+    "sense": "Forms agentive participles from verbs.",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "гээ",
+    "traditional": "ᠪᠡᠨ",
+    "latin": "ben",
+    "sense": "reflexive-possessive",
+    "attach": "vowel",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 16-17"
+  },
+  {
+    "cyrillic": "гээр",
+    "traditional": "ᠪᠡᠷ",
+    "latin": "ber",
+    "sense": "instrumental",
+    "attach": "vowel",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "гүй",
+    "traditional": "ᠦᠭᠡᠢ",
+    "latin": "ügei",
+    "sense": "privative",
+    "verified": false,
+    "source": "wiktionary",
+    "citation": "Монгол бичгийн гарын авлага-I (Төрийн албан хаагчдад зориулав), Б.Золжаргал нар, nccd.gov.mn, х. 31: үгүй is a сул үг written after the word, and attaches «өмнөх үгийн эр, эм эгшгийг үл харгалзан» — hence written apart and with no harmony pair. Corroborated: en.wiktionary.org «-гүй» aphaeresed from үгүй, «үгүй» → ᠦᠭᠡᠢ (ügei); mongoltoli.mn via maintainer 2026-07-28 (ᠨᠣᠮ ᠦᠭᠡᠶ, ᠤᠰᠤ ᠦᠭᠡᠶ, ᠲᠥᠰᠦᠷ ᠦᠭᠡᠶ), which also writes it apart after a vowel-final stem"
+  },
+  {
+    "cyrillic": "гөө",
+    "traditional": "ᠪᠡᠨ",
+    "latin": "ben",
+    "sense": "reflexive-possessive",
+    "attach": "vowel",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 16-17"
+  },
+  {
+    "cyrillic": "гөөр",
+    "traditional": "ᠪᠡᠷ",
+    "latin": "ber",
+    "sense": "instrumental",
+    "attach": "vowel",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "д",
+    "traditional": "ᠳᠤ",
+    "latin": "du",
+    "sense": "dative-locative",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 15-16"
+  },
+  {
+    "cyrillic": "д",
+    "traditional": "ᠳᠦ",
+    "latin": "dü",
+    "sense": "dative-locative",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 15-16"
+  },
+  {
+    "cyrillic": "дах",
+    "traditional": "ᠳᠠᠬᠤ",
+    "latin": "daqu",
+    "sense": "to use (a tool, a substance)",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "дах",
+    "traditional": "ᠳᠬᠤ",
+    "latin": "dqu",
+    "sense": "to possess a quality, to possess a quality to an excessive degree, more than…",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "ий",
+    "traditional": "ᠦ",
+    "latin": "ü",
+    "sense": "genitive",
+    "attach": "consonant",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 15"
+  },
+  {
+    "cyrillic": "ийг",
+    "traditional": "ᠢ",
+    "latin": "i",
+    "sense": "accusative",
+    "attach": "consonant",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 15"
+  },
+  {
+    "cyrillic": "ийг",
+    "traditional": "ᠶᠢ",
+    "latin": "yi",
+    "sense": "accusative",
+    "attach": "vowel",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 15"
+  },
+  {
+    "cyrillic": "ийн",
+    "traditional": "ᠦᠨ",
+    "latin": "ün",
+    "sense": "genitive",
+    "attach": "consonant",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 15"
+  },
+  {
+    "cyrillic": "ийн",
+    "traditional": "ᠶᠢᠨ",
+    "latin": "yin",
+    "sense": "genitive",
+    "attach": "vowel",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 15"
+  },
+  {
+    "cyrillic": "л",
+    "traditional": "ᠯ",
+    "latin": "l",
+    "sense": "forms action nouns and abstract nouns out of verbs",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "лдах",
+    "traditional": "ᠯᠳᠤᠬᠤ",
+    "latin": "lduqu",
+    "sense": "Forms the adversative voice, i.e. verbs that indicate actions happpening…",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "лдах",
+    "traditional": "ᠯᠳᠦᠬᠦ",
+    "latin": "ldükü",
+    "sense": "Forms the adversative voice, i.e. verbs that indicate actions happpening…",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "лт",
+    "traditional": "ᠯᠲᠡ",
+    "latin": "lte",
+    "sense": "forms action nouns out of verbs",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "лцах",
+    "traditional": "ᠯᠴᠠᠬᠤ",
+    "latin": "lčaqu",
+    "sense": "Forms the cooperative voice, i.e. verbs that indicating taking part in an…",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "м",
+    "traditional": "ᠮ",
+    "latin": "m",
+    "sense": "Seldom used suffix which forms nouns out of verbs",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "м",
+    "traditional": "ᠮ᠎ᠠ",
+    "latin": "m-a",
+    "sense": "Seldom used suffix which forms nouns out of verbs",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "мал",
+    "traditional": "ᠮᠠᠯ",
+    "latin": "mal",
+    "sense": "forms adjectives from verbs, denoting most commonly the manner in which a…",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "н",
+    "traditional": "ᠶᠢᠨ",
+    "latin": "yin",
+    "sense": "genitive",
+    "attach": "vowel",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 15"
+  },
+  {
+    "cyrillic": "на",
+    "traditional": "ᠨ᠎ᠠ",
+    "latin": "n-a",
+    "sense": "Forms locational adverbs from spatial roots",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "нд",
+    "traditional": "ᠳᠤ",
+    "latin": "du",
+    "sense": "dative-locative",
+    "attach": "vowel",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 15-16"
+  },
+  {
+    "cyrillic": "нд",
+    "traditional": "ᠳᠦ",
+    "latin": "dü",
+    "sense": "dative-locative",
+    "attach": "vowel",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 15-16"
+  },
+  {
+    "cyrillic": "нууд",
+    "traditional": "ᠨᠤᠭᠤᠳ",
+    "latin": "nugud",
+    "sense": "plural",
+    "attach": "vowel",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 14-15"
+  },
+  {
+    "cyrillic": "нүүд",
+    "traditional": "ᠨᠦᠭᠦᠳ",
+    "latin": "nügüd",
+    "sense": "plural",
+    "attach": "vowel",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 14-15"
+  },
+  {
+    "cyrillic": "оо",
+    "traditional": "ᠢᠶᠠᠨ",
+    "latin": "iyan",
+    "sense": "reflexive-possessive",
+    "attach": "consonant",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 16-17"
+  },
+  {
+    "cyrillic": "оо",
+    "traditional": "ᠪᠠᠨ",
+    "latin": "ban",
+    "sense": "reflexive-possessive",
+    "attach": "vowel",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 16-17"
+  },
+  {
+    "cyrillic": "оор",
+    "traditional": "ᠢᠶᠠᠷ",
+    "latin": "iyar",
+    "sense": "instrumental",
+    "attach": "consonant",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "оор",
+    "traditional": "ᠪᠠᠷ",
+    "latin": "bar",
+    "sense": "instrumental",
+    "attach": "vowel",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "оос",
+    "traditional": "ᠠᠴᠠ",
+    "latin": "acha",
+    "sense": "ablative",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "рь",
+    "traditional": "ᠷᠢ",
+    "latin": "ri",
+    "sense": "Forms nouns denoting places or results of an action.",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "т",
+    "traditional": "ᠲᠤ",
+    "latin": "tu",
+    "sense": "dative-locative",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 15-16"
+  },
+  {
+    "cyrillic": "т",
+    "traditional": "ᠲᠦ",
+    "latin": "tü",
+    "sense": "dative-locative",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 15-16"
+  },
+  {
+    "cyrillic": "тай",
+    "traditional": "ᠲᠠᠢ",
+    "latin": "tai",
+    "sense": "comitative",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "той",
+    "traditional": "ᠲᠠᠢ",
+    "latin": "tai",
+    "sense": "comitative",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "тэй",
+    "traditional": "ᠲᠡᠢ",
+    "latin": "tei",
+    "sense": "comitative",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "уу",
+    "traditional": "ᠭᠤ",
+    "latin": "ɣu",
+    "sense": "Forms mostly adjectives and sometimes nouns denoting result, from verbs.",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "ууд",
+    "traditional": "ᠤᠳ",
+    "latin": "ud",
+    "sense": "plural",
+    "attach": "consonant",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 14-15"
+  },
+  {
+    "cyrillic": "уулах",
+    "traditional": "ᠭᠤᠯᠬᠤ",
+    "latin": "ɣulqu",
+    "sense": "causative forming suffix.",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "уулах",
+    "traditional": "ᠭᠦᠯᠬᠦ",
+    "latin": "gülkü",
+    "sense": "causative forming suffix.",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "х",
+    "traditional": "ᠬᠢ",
+    "latin": "ki",
+    "sense": "substantive",
+    "verified": false,
+    "source": "wiktionary",
+    "citation": "en.wiktionary.org “-х” etymology 3: converts a genitive to a substantive genitive, Mongolian script ᠬᠢ; манайх → ᠮᠠᠨ ᠤ ᠬᠢ"
+  },
+  {
+    "cyrillic": "ц",
+    "traditional": "ᠴᠡ",
+    "latin": "če",
+    "sense": "Noun-forming suffix of indeterminable meaning",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "чин",
+    "traditional": "ᠴᠢᠨ",
+    "latin": "čin",
+    "sense": "Forms agent nouns from nouns and verbs.",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "члах",
+    "traditional": "ᠴᠢᠯᠠᠬᠤ",
+    "latin": "čilaqu",
+    "sense": "-ize, to make into",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "чууд",
+    "traditional": "ᠴᠤᠳ",
+    "latin": "chud",
+    "sense": "collective plural",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 14-15"
+  },
+  {
+    "cyrillic": "чүүд",
+    "traditional": "ᠴᠦᠳ",
+    "latin": "chüd",
+    "sense": "collective plural",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 14-15"
+  },
+  {
+    "cyrillic": "ъя",
+    "traditional": "ᠶ᠎ᠠ",
+    "latin": "y-a",
+    "sense": "let's, let me",
+    "verified": false,
+    "source": "wiktionary"
+  },
+  {
+    "cyrillic": "ы",
+    "traditional": "ᠤ",
+    "latin": "u",
+    "sense": "genitive",
+    "attach": "consonant",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 15"
+  },
+  {
+    "cyrillic": "ыг",
+    "traditional": "ᠢ",
+    "latin": "i",
+    "sense": "accusative",
+    "attach": "consonant",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 15"
+  },
+  {
+    "cyrillic": "ыг",
+    "traditional": "ᠶᠢ",
+    "latin": "yi",
+    "sense": "accusative",
+    "attach": "vowel",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 15"
+  },
+  {
+    "cyrillic": "ын",
+    "traditional": "ᠤᠨ",
+    "latin": "un",
+    "sense": "genitive",
+    "attach": "consonant",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 15"
+  },
+  {
+    "cyrillic": "ын",
+    "traditional": "ᠶᠢᠨ",
+    "latin": "yin",
+    "sense": "genitive",
+    "attach": "vowel",
+    "gender": "masculine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 15"
+  },
+  {
+    "cyrillic": "ээ",
+    "traditional": "ᠢᠶᠡᠨ",
+    "latin": "iyen",
+    "sense": "reflexive-possessive",
+    "attach": "consonant",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 16-17"
+  },
+  {
+    "cyrillic": "ээ",
+    "traditional": "ᠪᠡᠨ",
+    "latin": "ben",
+    "sense": "reflexive-possessive",
+    "attach": "vowel",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 16-17"
+  },
+  {
+    "cyrillic": "ээр",
+    "traditional": "ᠢᠶᠡᠷ",
+    "latin": "iyer",
+    "sense": "instrumental",
+    "attach": "consonant",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "ээр",
+    "traditional": "ᠪᠡᠷ",
+    "latin": "ber",
+    "sense": "instrumental",
+    "attach": "vowel",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "ээс",
+    "traditional": "ᠡᠴᠡ",
+    "latin": "eche",
+    "sense": "ablative",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "үүд",
+    "traditional": "ᠦᠳ",
+    "latin": "üd",
+    "sense": "plural",
+    "attach": "consonant",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 14-15"
+  },
+  {
+    "cyrillic": "өө",
+    "traditional": "ᠢᠶᠡᠨ",
+    "latin": "iyen",
+    "sense": "reflexive-possessive",
+    "attach": "consonant",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 16-17"
+  },
+  {
+    "cyrillic": "өө",
+    "traditional": "ᠪᠡᠨ",
+    "latin": "ben",
+    "sense": "reflexive-possessive",
+    "attach": "vowel",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 pp. 16-17"
+  },
+  {
+    "cyrillic": "өөр",
+    "traditional": "ᠢᠶᠡᠷ",
+    "latin": "iyer",
+    "sense": "instrumental",
+    "attach": "consonant",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "өөр",
+    "traditional": "ᠪᠡᠷ",
+    "latin": "ber",
+    "sense": "instrumental",
+    "attach": "vowel",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  },
+  {
+    "cyrillic": "өөс",
+    "traditional": "ᠡᠴᠡ",
+    "latin": "eche",
+    "sense": "ablative",
+    "gender": "feminine",
+    "verified": false,
+    "source": "manual",
+    "citation": "Nadmid 1990 p. 16"
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "name": "khudam-web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --cwd ../.. build && bun run --cwd ../.. build:queue && bun run --cwd ../.. build:review-bundle && next dev",
+    "build": "bun run --cwd ../.. build && bun run --cwd ../.. build:queue && bun run --cwd ../.. build:review-bundle && next build"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1",
+    "khudam": "workspace:*",
+    "next": "^16.2.11",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3"
+  }
+}

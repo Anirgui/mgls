@@ -1,0 +1,136 @@
+# CLAUDE.md — Khudam (Худам)
+
+## What this project is
+
+Khudam is an open-source Cyrillic ↔ Traditional Mongolian script (монгол бичиг) lexicon and converter library. The name comes from Худам монгол бичиг, the classical/historical name of the script itself. Public naming: "Khudam — нээлттэй монгол бичиг хөрвүүлэгч" (repo: khudam, npm package: khudam; keep "монгол бичиг хөрвүүлэгч" in descriptions for searchability). The long-term mission: become the free, open, standard-Unicode home for digital traditional Mongolian writing — a community-corrected lexicon anyone can use, plus a client-side conversion engine. The converter's public UI lives in this repo (`apps/web`, deployed at khudam.suray.mn) so merged data PRs go live without an npm release; the broader site suray.mn (separate repo) links to it and can consume the npm package for anything else.
+
+The ambition is large — mainstream infrastructure for a national script — but the maintenance budget is a few hours per week. Resolve that tension with a **lean core**: zero ops, static data, contributor accessibility. Complexity must pay rent; scale comes from community and data quality, not from features.
+
+Toolchain: **bun** (runtime, package manager, script runner, and test runner). TypeScript scripts run directly via `bun`. The published package remains standard ESM consumable by any npm/pnpm/yarn/bun user.
+
+- Code license: MIT (`LICENSE`)
+- Data license: CC BY-SA 4.0 (`data/LICENSE`) — ShareAlike chosen deliberately so improved versions of the lexicon must remain open
+- Language: repo docs bilingual, Mongolian first, English second. Code identifiers and comments in English.
+
+## Critical domain knowledge (read before touching data or engine)
+
+**Conversion is NOT transliteration.** Traditional script preserves ~13th-century orthography; Cyrillic reflects modern pronunciation. Example: уул ("mountain") → ᠠᠭᠤᠯᠠ (*agula*) — the historical intervocalic ᠭ was dropped in speech and vowels merged into long уу, but бичиг still writes the old form. The historical spelling is not derivable from Cyrillic by rules; it requires dictionary lookup.
+
+**One-to-many is fundamental.** A single Cyrillic word can map to multiple traditional words with different meanings. уул itself: ᠠᠭᠤᠯᠠ (*agula*, mountain) vs ᠤᠤᠯ (*uul*, original — as in уул нь). The schema stores an ARRAY of candidates per Cyrillic form; the engine returns all candidates and lets the UI/user choose. Never silently collapse to one candidate.
+
+**Mongolian is agglutinative.** Words = stem + chain of suffixes. Suffix inventories differ between scripts, and in traditional script many suffixes are written as separate units joined by NNBSP (U+202F). Full morphological handling is a later phase; v0 handles whole-word lookup plus a curated common-suffix table (`data/suffixes.json`) applied by the suffix engine (`packages/converter/src/suffix.ts`) — chains up to depth 2 in slot order, inflection only, conditions evaluated on the traditional stem, with Cyrillic stem repairs (final ь, fleeting vowel) to recover a lookup key the mutated surface hides. Grammar rules are recorded with citations in `data/GRAMMAR.md`; route new morphology-rule questions through that file (code-point questions still go to `data/ENCODING.md`). Coverage is measurable — `bun run measure:suffix` — so a rule change is an experiment, not an opinion.
+
+**Unicode gotchas (traditional Mongolian is notoriously hard):**
+- Main block: U+1800–U+18AF. Also uses FVS1–FVS3 (U+180B–U+180D) free variation selectors, MVS (U+180E), and NNBSP (U+202F) before suffixes.
+- Letters take positional forms (initial/medial/final) rendered by the font — we store logical code points only, never presentation forms.
+- Several distinct letters share identical glyphs; encoding correctness cannot be judged visually. Validate by code point, not by appearance.
+- Font support is inconsistent across OS/browsers. The library never assumes rendering works; the web layer (`apps/web`) deals with fonts (Noto Sans Mongolian webfont, `writing-mode: vertical-lr`) and PNG export.
+- Use standard Unicode only. Do NOT adopt Bolorsoft's proprietary "Тунгаамал" encoding model.
+- Encoding-model decisions (e.g. postvocalic й = single ᠢ U+1822, never the ᠶᠢ digraph) are recorded with citations in `data/ENCODING.md` — follow them, and route any new code-point-level policy question through that file.
+
+**Competitive context:** Bolorsoft's KIMO is the commercial incumbent (paid, Windows, MS Word plugin). We do not compete on full-document official accuracy. Our wedge: free, web-first, instant conversion of names / words / short phrases, with honest ambiguity UI and verified-quality tiers.
+
+## Data model
+
+All data lives in this repo as JSON. Git is the database. No servers, ever.
+
+```
+data/
+  lexicon/а.json … я.json    # sharded by first Cyrillic letter, sorted by `cyrillic`
+  names.json                 # personal names — target: 100% verified, this is the flagship subset
+  suffixes.json              # common Cyrillic suffix → traditional suffix mappings
+  reviewers.json             # trusted-reviewer grants: SHA-256 hashes + opaque labels, never names
+  stats/frequency.json       # how often each candidate was copied — ordering signal, never truth
+  stats/reports.json         # open community reports; the weekly job's memory
+  schema/entry.schema.json   # JSON Schema for lexicon entries
+  LICENSE                    # CC BY 4.0
+```
+
+Entry shape:
+
+```json
+{
+  "cyrillic": "уул",
+  "candidates": [
+    { "traditional": "ᠠᠭᠤᠯᠠ", "latin": "agula", "sense": "mountain", "verified": true,  "source": "manual" },
+    { "traditional": "ᠤᠤᠯ",  "latin": "uul",   "sense": "original", "verified": false, "source": "wmk-import" }
+  ]
+}
+```
+
+Rules:
+- `cyrillic` is the unique key within the whole lexicon (lowercase, NFC-normalized).
+- `verified: true` means a human who reads монгол бичиг read this spelling and said it is right. It reaches the data two ways and no others: a reviewer editing the entry in a PR, or the job transcribing **trusted reviewers' attestations** into that PR's diff, where the maintainer merges it (the fast track, below). No script ever decides it, and a single trusted "no" vetoes the fast track and escalates instead. Machine imports are always `verified: false`.
+- **How many attestations** is one constant, `ATTESTATION_THRESHOLD` in `scripts/aggregate-signals.ts`, and it is **1** today — deliberately and in the open, because one trusted expert is who this project realistically has and a threshold nobody can reach verifies nothing. Raise it to 2 when there are two reviewers; that is the constant plus the documents quoting it, and entries verified under the old rule are not retroactively un-verified. What keeps 1 honest: every flip records its reviewer's label (auditable, and revocation un-verifies retroactively), the veto stays live, the maintainer still merges, and **no grant can delete anything** — a rejection is written up for a human, never applied.
+- **Trusted reviewers** are people the maintainer knows read the script. A grant is a UUID inside a link (`bun run reviewer:add`), and the repo stores only its SHA-256 hash beside an opaque label — `r1`, `r2`. Who holds which grant is a private note and must never be committed; the pull request says which labels stand behind a spelling, never who they are. Revoking is `bun run reviewer:revoke r2`: the line stays in `data/reviewers.json` as a tombstone (so the label is never reissued to a different person), and the grant stops counting from the next run — including attestations already recorded in the ledger, which every run re-checks against the roster. That is what makes a leaked link recoverable.
+- **The expert review page** (`apps/web/app/review`) is where a reviewer actually judges: every spelling rendered *and* broken down by code point, because several distinct letters share identical glyphs and a rendered form alone lets an expert confirm a wrong encoding in good faith. It reads a bundle compiled from `data/stats/reports.json` at deploy time (`bun run build:review-bundle`, gitignored) — never the mailbox — so it needs no read access to Supabase at all. Send inserts rows into the `decisions` table; the job hash-checks each stamp against the roster in git and transcribes what survives. The page proposes; git remains the database.
+- `source` values so far: `"wmk-import"`, `"wiktionary"` (see provenance below), `"manual"`, `"community"`.
+- `corroborated: true` (optional) marks a candidate whose traditional form was produced identically by two independent sources (e.g. wmk bootstrap + Wiktionary). Set by import tooling only; it raises confidence but is NOT verification.
+- `sense` is optional for single-candidate entries, required when candidates > 1.
+- Community signals never edit or remove an existing candidate — "this spelling is wrong" and "this is a correct spelling of a meaning I did not want" arrive through the same button. The job (`scripts/aggregate-signals.ts`) writes to the lexicon in exactly three cases: it **adds** a candidate for a word with no entry at all, one proposed spelling, typed identically by two independent sessions; it **adds** a spelling a trusted reviewer accepted on the review page; and it **flips `verified: true`** on a candidate enough trusted reviewers attested and none disputed, capped per pull request so the fast-track section stays short enough to actually read. A **rejection is never applied** — removing a candidate is the one edit that loses data, so it is written up in `data/REVIEW.md` with the file and line, and a leaked grant cannot empty the lexicon. Everything else is a reviewer decision written up in `data/REVIEW.md`.
+- Files must stay sorted and diff-friendly (2-space indent, one entry object per logical block). Every data mutation goes through scripts in `scripts/` — never hand-edit formatting conventions.
+
+## Seed data provenance (important, do not misrepresent)
+
+Bootstrap source: `dictionary.json` (28,263 entries `{cyrillic, latin, traditional}`) from github.com/sura0111/writtenMongolianKeyboard — MIT per its package.json (no LICENSE file in repo; attribution kept in `data/SOURCES.md`). Its traditional forms were machine-generated by an undisclosed third-party converter over words scraped from ikon.mn RSS. Therefore: import everything as `verified: false`, one candidate per entry, and treat the entire layer as "unverified bootstrap." Known defect: one-to-many collapsed to one (e.g. уул has only ᠤᠤᠯ; ᠠᠭᠤᠯᠠ "mountain" is missing). The mission is gradually verifying/correcting entries via community PRs.
+
+Second tier: `"wiktionary"` — English Wiktionary's Mongolian entries, machine-extracted by wiktextract/kaikki.org (CC BY-SA, same license as our data; attribution in `data/SOURCES.md`). Wiktionary content is community-reviewed by human editors, so this tier is **higher trust than `wmk-import` but still `verified: false`** — verification remains our reviewers' job. When both sources produce the identical traditional form the candidate gets `corroborated: true`; when they disagree, both candidates are kept and the word joins the prioritized conflict queue in `data/REVIEW.md`. Re-import with `bun run import:wiktionary` (idempotent; kaikki refreshes with each Wiktionary dump).
+
+Watchlist: the CoPiT paper (arXiv 2607.05849) released a 14,125-entry verified lexicon with vowel-harmony labels, currently behind an anonymized review repo with unstated license — do not import until the authors confirm licensing. The JIMDT 2024 "Mon_data" (63k pairs) is CC BY-NC — legally incompatible with our CC BY-SA data (NC and SA cannot be combined) and with commercial consumers like suray.mn; never import it, even partially, unless the authors grant an explicit license exception in writing (record it in data/SOURCES.md if ever obtained).
+
+## Package layout
+
+```
+apps/web/               # static Next.js converter UI -> khudam.suray.mn (own Vercel project,
+                        #   root directory apps/web; consumes khudam via the bun workspace)
+packages/converter/     # TypeScript npm package: khudam
+  src/
+    index.ts            # public API
+    normalize.ts        # NFC, lowercase, whitespace/punct handling
+    lookup.ts           # word → candidates (data compiled in at build)
+    convert.ts          # tokenizes text, converts word-by-word, returns per-token candidates
+  test/
+supabase/              # disposable community-signal mailbox (schema.sql + runbook);
+                       #   never a source of truth — losing it loses at most a week
+scripts/
+  add-reviewer.ts       # issue a trusted-reviewer grant; prints the link once, stores only its hash
+  import-wmk.ts         # one-time bootstrap import (idempotent)
+  import-wiktionary.ts  # second-tier import via kaikki.org (idempotent, re-runnable)
+  validate.ts           # schema + Unicode-range + duplicate + sort checks; exits non-zero on failure
+  measure-suffix.ts     # suffix-engine coverage vs. Wiktionary declension tables (reports only)
+  build-data.ts         # compiles data/ into a compact artifact bundled with the package
+  export-signals.ts     # drains the mailbox to JSONL; deletes by row id, never by timestamp
+  aggregate-signals.ts  # JSONL → data/stats/ + REVIEW.md queue + the weekly PR body
+  build-queue.ts        # data/ → apps/web/public/queue.json (verification questions)
+.github/workflows/
+  validate.yml          # runs scripts/validate.ts on every PR and push
+  signals.yml           # weekly: drain → archive → aggregate → validate → one PR → delete
+  keepalive.yml         # mid-week ping so the free-tier mailbox never pauses
+```
+
+Engine principles:
+- Zero runtime dependencies. Must run in the browser (suray.mn is fully client-side).
+- Pure functions, deterministic. Public API returns candidate lists with `verified` flags — never a single silent guess when ambiguity exists.
+- Unknown words: return a rule-based fallback transliteration clearly flagged `fallback: true`, never disguised as dictionary output.
+
+## Commands
+
+- `bun run validate` — full data validation (same as CI)
+- `bun run build` — compile data + build the package
+- `bun test` — engine unit tests (bun's built-in test runner)
+- `bun run import:wmk` — bootstrap import (idempotent; refuses to overwrite `verified: true` candidates)
+- `bun run reviewer:add` — issue a trusted-reviewer grant; prints one link, once, and writes only its hash to `data/reviewers.json`
+- `bun run reviewer:revoke <label>` — tombstone a grant; it stops counting from the next run, past attestations included
+- `bun run signals:export <file>` — drain the community mailbox (`--delete <file>` removes what it drained); needs `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`
+- `bun run signals:aggregate <file>` — turn a drain into `data/stats/` + the review queue in `data/REVIEW.md`
+- `bun run build:queue` — compile `apps/web/public/queue.json` (gitignored; the web build runs it)
+- `bun run measure:suffix` — suffix-engine coverage against Wiktionary's declension tables (needs the cached kaikki dump; maintainer tool, not CI)
+
+## Working agreements for Claude
+
+- Never mark data `verified: true` yourself, and never "fix" a traditional spelling from your own knowledge — your training data on монгол бичиг orthography is unreliable. Data corrections come from humans via PRs; you may flag suspicious entries in `data/REVIEW.md`. The fast track is not an exception you may borrow: it transcribes what trusted human reviewers answered, and you are not one of them.
+- Keep every piece zero-ops: static data, build-time compilation, GitHub Actions only. No databases, no APIs, no servers.
+- Contributor experience is a feature: error messages from `validate.ts` must be beginner-friendly (contributors include non-programmer teachers editing JSON in the GitHub web UI).
+- Tests accompany any engine change. Validation must pass before any commit touching `data/`.
+- Small, reviewable commits; conventional commit messages.
+- When scope questions arise, prefer the simplest design that serves the mission. The mission itself is big — becoming the open home of digital монгол бичиг — so don't cap ambition; cap operational burden. Growth path when the community arrives: more verified data, more reviewers, governance docs, richer tooling — in that order, and still zero-ops.

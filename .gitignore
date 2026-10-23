@@ -1,0 +1,37 @@
+# dependencies
+node_modules/
+
+# build artifacts
+dist/
+packages/converter/src/generated/
+# The verification queue is compiled from data/ on every build, exactly like the
+# lexicon artifact above it. Committing it would only add a large generated diff
+# to every pull request and let the questions drift behind the data they came
+# from — a deploy always regenerates them.
+apps/web/public/queue.json
+# Same story for the expert review page's bundle, and one more reason: it is
+# compiled from data/stats/reports.json, so committing it would put the same
+# content in the repository twice and let the two disagree.
+apps/web/public/review-bundle.json
+apps/web/.next/
+apps/web/out/
+apps/web/next-env.d.ts
+*.tsbuildinfo
+.vercel/
+
+# local env — apps/web/.env.example is the tracked template and stays tracked.
+# The anon key is public by design, but a service_role key must never reach a
+# file that git can see.
+.env
+.env*.local
+
+# logs & OS noise
+*.log
+.DS_Store
+Thumbs.db
+
+# local planning / scratch (not committed)
+.plans/
+
+# downloaded raw data (kaikki.org dumps etc.) — never commit raw source files
+.cache/

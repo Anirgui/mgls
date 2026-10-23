@@ -1,0 +1,28 @@
+{
+  "name": "khudam-repo",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "validate": "bun scripts/validate.ts",
+    "import:wmk": "bun scripts/import-wmk.ts",
+    "import:wiktionary": "bun scripts/import-wiktionary.ts",
+    "reviewer:add": "bun scripts/add-reviewer.ts",
+    "reviewer:revoke": "bun scripts/revoke-reviewer.ts",
+    "signals:export": "bun scripts/export-signals.ts",
+    "signals:aggregate": "bun scripts/aggregate-signals.ts",
+    "build:data": "bun scripts/build-data.ts",
+    "build:queue": "bun scripts/build-queue.ts",
+    "build:review-bundle": "bun scripts/build-review-bundle.ts",
+    "measure:suffix": "bun run build:data && bun scripts/measure-suffix.ts",
+    "build": "bun run build:data && tsc -p packages/converter/tsconfig.build.json",
+    "test": "bun run build:data && bun test"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.0",
+    "typescript": "^5.5.0"
+  }
+}

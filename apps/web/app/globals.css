@@ -1,0 +1,1735 @@
+:root {
+  /* Every colour carries both of its themes, and color-scheme picks which one
+     is live — for the tokens and for native widgets (scrollbars, the
+     textarea's resize grip) in the same stroke. This is also the entire
+     switching mechanism: the toggle only ever flips color-scheme via
+     data-theme below, so there is exactly one palette to maintain. */
+  color-scheme: light dark;
+
+  /* --bg is also THEME_BG in lib/theme.ts (the address-bar colour); change
+     them together. */
+  --bg: light-dark(#faf9f7, #101214);
+  --panel: light-dark(#ffffff, #181b1e);
+  --ink: light-dark(#1a1c1e, #e8e6e3);
+  --muted: light-dark(#6b7280, #9aa0a6);
+  --border: light-dark(#e3e1dc, #2a2e33);
+  --accent: light-dark(#2456a6, #7aa5e8);
+  --verified: light-dark(#1a7f4b, #57c98a);
+  --verified-bg: light-dark(#e6f4ec, #12301f);
+  --warn: light-dark(#9a6700, #e3b341);
+  --warn-bg: light-dark(#fff3d6, #33290f);
+  --neutral: light-dark(#56606b, #aab2ba);
+  --neutral-bg: light-dark(#eef0f2, #23272c);
+  /* Distinct from --warn: amber means "this is a machine guess, not dictionary
+     data", which is a property of the answer. Red means "what you typed cannot
+     be sent", which is a property of the input. One colour for both made the
+     converter look like it was scolding the reader. */
+  --error: light-dark(#b42318, #f97066);
+
+  /* One scale each, so nothing drifts. Five text steps carry the whole page;
+     the two Mongolian display sizes are their own rhythm because vertical
+     script needs far more room than Cyrillic at the same nominal size. */
+  --text-xs: 0.75rem;
+  --text-sm: 0.85rem;
+  --text-md: 1.15rem;
+  --text-display: 2.5rem;
+  --text-mong: 1.4rem;
+  --text-mong-lg: 1.7rem;
+
+  /* The one column everything hangs in — the page and the bar above it, which
+     is what keeps the header's hairline on the same rhythm as the rules
+     between sections. */
+  --column: 780px;
+
+  /* Radius: inline controls · containers · pills. Nothing else. */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-pill: 999px;
+
+  /* Felt, not seen. */
+  --ease: 120ms ease;
+
+  /* Two Latin faces designed Cyrillic-first (loaded in layout.tsx): a serif
+     for headings, a sans for everything else. The fallbacks matter on the
+     first paint before the webfonts arrive — closest system metrics first. */
+  --font-body:
+    var(--font-sans), "PT Sans", system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-serif), "PT Serif", Georgia, serif;
+}
+
+/* A reader's choice outranks the OS. Set before first paint by the boot
+   script in layout.tsx, owned by the theme toggle after that; absent means
+   follow the system. */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* One focus ring for every control on every page. Browser defaults differ
+   per element and per engine, so leaving them native made keyboard focus
+   look like six different products. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+  /* Tapping a button already answers with a colour ease; the grey flash
+     mobile Safari and Chrome add on top of it is a second, louder answer. */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Headings are the one place the page speaks in its own voice, and a serif
+   is how a dictionary speaks: the headword bold and bookish, the entry
+   beneath it plain. Everything below h2 stays in the body face — a serif
+   caption would be decoration, not hierarchy. */
+h1,
+h2 {
+  font-family: var(--font-display);
+}
+
+/* Selected text is the reader acting on the page, so it takes the one
+   interaction colour — as a wash, since a solid accent behind text is a
+   fill, and the accent only ever appears as a line. */
+::selection {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.mongolian {
+  font-family: var(--font-mongolian), "Noto Sans Mongolian", "Mongolian Baiti", sans-serif;
+}
+
+main {
+  max-width: var(--column);
+  margin: 0 auto;
+  /* Less air on top than the page used to open with: the site header now
+     occupies that space, and its hairline is where the page begins. */
+  padding: 1.5rem 1.25rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ---- site header ---- */
+
+/* The mark and the name on the page's left axis, the reader's own controls at
+   the right end — the same shape as a field label carrying its button. It sits
+   in the page's column rather than bleeding to the window edges, so the rule
+   under it belongs to the same rhythm as the rules between sections. */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: var(--column);
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-mark {
+  flex: 0 0 auto;
+}
+
+/* The wordmark, in both places the site signs its name. */
+.brand-name,
+.footer-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-md);
+}
+
+/* The name answers, not the mark: an open book turning blue reads as a
+   rendering fault rather than as a hover. */
+.brand:hover .brand-name,
+.brand:focus-visible .brand-name {
+  text-decoration: underline;
+}
+
+.site-header-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ---- page header ---- */
+
+/* What the page itself is: a title, its gloss, and a line of small print. Named
+   by exclusion because both are <header> — the site's is a bar and this one is
+   a stack, and no page has two of either. */
+header:not(.site-header) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: var(--text-display);
+  line-height: 1.15;
+  /* The queue and review pages title in a full phrase; on a phone it breaks
+     into one long line and one orphaned word without this. */
+  text-wrap: balance;
+}
+
+.theme-toggle {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.subtitle {
+  margin: 0;
+}
+
+.stats {
+  margin: 0.5rem 0 0;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+/* The English echo of a Mongolian line — in the header and in every info
+   section. Quieter and smaller, so the page reads as Mongolian with a gloss
+   rather than as two languages competing at equal volume. */
+.en {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+/* Inside a sentence a link has only these two marks to be found by, so it
+   keeps both. The offset is for Cyrillic: у, д, ц and р all hang below the
+   baseline, and a default underline runs straight through them. */
+a {
+  color: var(--accent);
+  text-decoration-thickness: from-font;
+  text-underline-offset: 0.18em;
+}
+
+/* The site's own furniture — the bar under a title, the row of ways out, the
+   colophon's groups — as opposed to a link the page is making a point with.
+   Furniture is found by position: every item in these is a link, so the rule
+   says nothing and leaves, returning on hover where it means "this one". A
+   link in the running content keeps both marks even when it has a line to
+   itself, because there it is the point rather than the plumbing.
+
+   The colophon and the wordmark go further and give up the accent as well: six
+   ink links read as a book's imprint page, six blue ones as an advertisement. */
+.stats a,
+.links-row a {
+  text-decoration: none;
+}
+
+.brand,
+.footer-brand a,
+.footer-group a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.stats a:hover,
+.stats a:focus-visible,
+.links-row a:hover,
+.links-row a:focus-visible,
+.footer-brand a:hover,
+.footer-brand a:focus-visible,
+.footer-group a:hover,
+.footer-group a:focus-visible {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+/* The imprint line is small print with links in it, so they keep the rule and
+   give up the colour — two licence names in accent blue were the loudest thing
+   on the quietest line of the page. */
+.footer-legal a {
+  color: inherit;
+}
+
+.footer-legal a:hover,
+.footer-legal a:focus-visible {
+  color: var(--accent);
+}
+
+/* ---- input / output ---- */
+
+.io {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* One caption style for every field label, in the page and in the dialog. */
+.field-label,
+.proposal-label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+/* A field label carries a utility at its right end — a button, or the key to
+   the tier marks. On a narrow screen that drops below the caption instead of
+   crushing it. */
+.field-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.15rem 0.75rem;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+  font: inherit;
+  font-size: var(--text-md);
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+}
+
+.samples {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Interaction is felt, not announced: colour eases, nothing moves or grows. */
+a,
+textarea,
+.sample,
+.field-action,
+.chip,
+.card-action,
+.choice,
+.report-x,
+.proposal-input,
+.proposal-submit,
+.queue-alt,
+.queue-step,
+.queue-review-row {
+  transition:
+    border-color var(--ease),
+    background-color var(--ease),
+    color var(--ease),
+    opacity var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none;
+  }
+}
+
+.sample {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--ink);
+  border-radius: var(--radius-pill);
+  padding: 0.25rem 0.9rem;
+}
+
+.sample:hover {
+  border-color: var(--accent);
+}
+
+/* The utility a field label carries at its right end: copy the output, empty
+   the input. One style for both — they are the same kind of thing, a small
+   convenience belonging to the field above which it sits, and the label row is
+   what makes it read that way. */
+.field-action {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--ink);
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.75rem;
+  font-size: var(--text-sm);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.field-action:hover {
+  border-color: var(--accent);
+}
+
+/* The traditional script flows top-to-bottom, columns left-to-right. */
+.vertical {
+  writing-mode: vertical-lr;
+  height: min(340px, 48vh);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  font-size: var(--text-mong-lg);
+  line-height: 1.9;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.1rem;
+}
+
+.word.ambiguous {
+  text-decoration: underline dotted var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.word.fallback {
+  color: var(--warn);
+}
+
+.note {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+/* ---- per-word candidates ---- */
+
+.words {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* One sentence: its number, then its cards. The number sits outside the
+   scroller, which is not a detail — inside it, it was a flex item with no snap
+   point of its own, so proximity snapping pulled the first card to the
+   scroll-start and slid the number out of view on every row long enough to
+   scroll. It is a label for the row, and a label that leaves when you use the
+   row labels nothing. */
+.words-row {
+  position: relative;
+  display: flex;
+  /* On the first card's headword line, by its baseline rather than by a
+     measurement: centring put the number in the gap between lines as soon as a
+     row wrapped, and a row's number belongs at the row's start. */
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.words-row > .words-cards {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Cards march left→right, echoing the vertical output's column flow, and
+   scroll horizontally on a phone. */
+.words-cards {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding: 0.25rem 0.25rem 0.85rem;
+  scroll-snap-type: x proximity;
+  scroll-padding-left: 0.25rem;
+}
+
+/* The right-edge fade that hints there is more of the row. */
+.words-row::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0.85rem;
+  width: 2rem;
+  background: linear-gradient(to right, transparent, var(--bg));
+  pointer-events: none;
+}
+
+/* Row marker when the text has more than one sentence. */
+.sentence-num {
+  flex: 0 0 auto;
+  min-width: 1.2rem;
+  text-align: center;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.word-card {
+  flex: 0 0 auto;
+  min-width: 8.5rem;
+  display: flex;
+  flex-direction: column;
+  /* One gap for everything the card stacks, and it matches the space under
+     the word above the rule, so the card reads as an even column top to
+     bottom rather than as blocks pushed apart by different margins. */
+  gap: 0.45rem;
+  padding: 0.75rem 0.8rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  scroll-snap-align: start;
+}
+
+.word-input {
+  font-weight: 600;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Candidates sit side by side; the card grows wide, never tall, so an
+   ambiguous word doesn't push the whole sentence row down. Wrapping is the
+   safety valve for the rare word with four recorded spellings, whose card in
+   the desktop grid has a width it cannot exceed. */
+.chips {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.45rem;
+  /* Cards in a row are stretched to the tallest of them, and this is what
+     decides where that borrowed height goes. Growing the specimens means it
+     lands above their captions rather than below the buttons — so every badge
+     in a row sits on one line, and so does every row of buttons under them. It
+     used to pool at the bottom of the shorter cards, which left three cards'
+     worth of ✓ зөв at three different heights. */
+  flex-grow: 1;
+}
+
+/* ---- the same cards, on a screen with a mouse ---- */
+
+/* Wide enough for three columns, which is where a horizontal scroller stops
+   being a gesture and becomes a chore: a mouse has no swipe, and a row of
+   words is a thing to read all of rather than to drag through. The phone keeps
+   the scroller — there the swipe is the natural motion, and the vertical
+   script wants the whole width for the few cards on screen. */
+@media (min-width: 40rem) {
+  .words-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+    overflow-x: visible;
+    padding-bottom: 0;
+    scroll-snap-type: none;
+  }
+
+  /* Nothing scrolls, so there is nothing to hint at. */
+  .words-row::after {
+    content: none;
+  }
+
+  /* Each card asks for the columns its candidates need, so an ambiguous word
+     gets room for its chips side by side instead of one column's worth of
+     squeeze. Capped at three by the page — a fourth column of Mongolian would
+     be narrower than the script can be read at. */
+  .word-card {
+    grid-column: span var(--span, 1);
+  }
+}
+
+/* The pick button and its reporting affordance stack, so the flag never
+   overlaps the vertical script inside the chip. */
+.chip-wrap {
+  display: flex;
+  flex-direction: column;
+  /* Wider than the gap under the flag button, which looks backwards until you
+     count the tap padding: each action button carries ~0.37rem of it above
+     and below its label, so two stacked buttons already hold twice that
+     between them. These two numbers are what make the three labels — chip,
+     flag, add-sense — sit an equal distance apart in ink. */
+  gap: 0.4rem;
+  flex: 1 0 auto;
+  min-width: 7rem;
+  max-width: 12rem;
+}
+
+/* The chip centres on one axis: the script is the specimen and the latin,
+   sense and badge beneath it are its caption, so they share its centre line
+   rather than hanging off the left with the column standing apart. The action
+   buttons below stay on the card's left rail — those are controls, not part
+   of the specimen.
+
+   On the other axis the specimen holds the top and its caption holds the floor.
+   Two chips of one word are stretched to a common height, and stacking both
+   from the top made that height show: the shorter spelling's latin, sense and
+   badge floated up out of line with its neighbour's, leaving a hole beneath
+   them. Vertical script is read downwards, so the two columns start together;
+   everything written about them is glued to the bottom, which is what puts the
+   badges — the loudest thing on the card — on one line. */
+.chip {
+  /* The corner mark's frame of reference. Without this the nearest positioned
+     ancestor is the sentence row, and every mark in a row stacks in one
+     corner of it. */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  gap: 0.4rem;
+  flex: 1;
+  min-width: 0;
+  padding: 0.55rem 0.6rem;
+  background: var(--bg);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--ink);
+}
+
+/* Every door into the contribution pipeline — report this candidate, propose a
+   spelling for an unknown word, say a meaning is missing — is the same kind of
+   act, so all of them are the same button: quiet (reporting is offered, not
+   demanded), always visible (a hover-only control does not exist on touch),
+   and left-aligned in one column down the card so they read as a set rather
+   than as unrelated controls scattered to opposite corners. */
+.card-action {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  /* Comfortably tappable: this is the whole feature's entry point, and most
+     visitors are on a phone. The height here is tap target, not padding —
+     the card gets shorter by closing the space around these buttons, never
+     by shrinking them. */
+  min-height: 1.9rem;
+  padding: 0.2rem 0.4rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--muted);
+  font-size: var(--text-xs);
+  text-align: left;
+}
+
+.card-action:hover,
+.card-action:focus-visible {
+  color: var(--ink);
+  background: var(--neutral-bg);
+}
+
+/* The completeness door's scope is the whole word rather than the candidate
+   above it. Position carries that on its own: it sits at the card's left
+   edge while the per-candidate buttons are tucked under their chips. The
+   rule that used to say it was a third horizontal line in a small card. */
+.word-card-foot {
+  display: flex;
+  /* Cancels the card gap — see .chip-wrap. The air between the two buttons is
+     their own padding, and adding the card's gap on top of it left the
+     add-sense button stranded at the bottom of the card. */
+  margin-top: -0.45rem;
+}
+
+/* Right and wrong are two answers to one question, so they share a line. The
+   column below the chip is for doors that lead somewhere different from each
+   other; these two lead to the same place with opposite content, and stacking
+   them made the card a third taller for no reader's benefit. Wrapping is
+   allowed rather than prevented: at the card's narrowest they stack, which is
+   still the right shape when there is no room for the row. */
+.chip-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  /* No gap: each button already carries 0.4rem of tap padding on the side it
+     meets its neighbour, so a gap on top of that reads as two separate
+     controls rather than as a pair. */
+  gap: 0;
+}
+
+/* A sent vote is a receipt, not a disabled control, so it does not dim the way
+   a real disabled button should — the label already changed, and greying the
+   one line that says "thank you" is a strange thing to do to somebody who just
+   helped. Only the cursor says it is finished. */
+.card-action:disabled {
+  cursor: default;
+}
+
+.card-action:disabled:hover {
+  color: var(--muted);
+  background: none;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+}
+
+.chip.picked {
+  border-color: var(--accent);
+  background: var(--panel);
+}
+
+.chip-trad {
+  writing-mode: vertical-lr;
+  font-size: var(--text-mong);
+  line-height: 1.35;
+}
+
+.chip-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: var(--text-xs);
+}
+
+.latin {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.sense {
+  color: var(--ink);
+}
+
+/* ---- tier marks ---- */
+
+/* A stamp in the chip's corner, where a pill used to take a line of every card.
+   Absolute, so it costs the specimen and its caption no height at all and does
+   not join the column they share — the chip's script is one narrow centred
+   column, and this corner is the one part of the box that was always empty. */
+.chip-marks {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.4rem;
+  display: flex;
+  gap: 0.25rem;
+  font-size: var(--text-xs);
+  line-height: 1;
+}
+
+/* Bold because a mark this small is a glyph doing a pill's work, and it has to
+   survive being 12px of punctuation. Never colour alone: each carries its own
+   shape, so the three are told apart by a reader who cannot tell green from
+   amber. */
+.mark {
+  font-weight: 700;
+  cursor: help;
+}
+
+.mark.verified {
+  color: var(--verified);
+}
+
+.mark.fallback {
+  color: var(--warn);
+}
+
+/* Neutral for both of the marks that report an ordinary state: unverified is
+   what nearly every spelling is, and a composed form is a stem this lexicon
+   holds plus a suffix rule with citations behind it — a different claim from
+   "a machine guessed this", and not one to spend the caution colour on. */
+.mark.composed,
+.mark.unverified {
+  color: var(--neutral);
+}
+
+/* In the key and the legend the mark is being named, not consulted. */
+.words-key .mark,
+.legend .mark {
+  cursor: inherit;
+}
+
+/* The key beside the section label: normal case and weight against the label's
+   small caps, so it reads as a sentence sharing a line with a caption rather
+   than as more caption. It wraps to its own line when the text has produced
+   enough marks to need one. */
+.words-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.8rem;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 400;
+}
+
+.words-key-item {
+  white-space: nowrap;
+}
+
+/* One column for the marks, so the four meanings hang off one left axis
+   instead of stepping in and out with the width of each glyph. */
+.legend .mark {
+  flex: 0 0 1rem;
+  text-align: center;
+}
+
+.badge {
+  border-radius: var(--radius-pill);
+  padding: 0.1rem 0.55rem;
+  font-weight: 600;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.badge.verified {
+  color: var(--verified);
+  background: var(--verified-bg);
+}
+
+.badge.unverified {
+  color: var(--neutral);
+  background: var(--neutral-bg);
+}
+
+.badge.fallback {
+  color: var(--warn);
+  background: var(--warn-bg);
+}
+
+/* ---- info sections (about / data quality / contribute) ---- */
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+
+.info h2 {
+  margin: 0;
+  font-size: var(--text-md);
+}
+
+.info p {
+  margin: 0;
+}
+
+.links-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem;
+}
+
+/* ---- notices ---- */
+
+/* A status the page is reporting, as opposed to something it is teaching.
+   The shape is the reviewer badge's — panel, hairline, a coloured left edge —
+   because that block already means "this line is about right now, not about
+   the product". The edge is the only place the colour appears, and it keeps
+   the palette's one meaning per colour: red = this failed, amber = mind this
+   before you continue, green = this succeeded. Anything still .info is
+   documentation. */
+.notice {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.9rem 1rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--neutral);
+  border-radius: var(--radius-md);
+}
+
+.notice p {
+  margin: 0;
+}
+
+.notice h2 {
+  margin: 0;
+  font-size: var(--text-md);
+}
+
+.notice-error {
+  border-left-color: var(--error);
+}
+
+.notice-warn {
+  border-left-color: var(--warn);
+}
+
+.notice-ok {
+  border-left-color: var(--verified);
+}
+
+/* ---- badge legend ---- */
+
+/* The three quality tiers shown as the chips they actually are: the reader
+   meets the real badge here once, with its meaning beside it, instead of
+   reconstructing it from a sentence about a checkmark. */
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-size: var(--text-sm);
+}
+
+.legend li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.legend .badge {
+  flex: 0 0 auto;
+  font-size: var(--text-xs);
+}
+
+.legend-what {
+  color: var(--muted);
+}
+
+/* ---- trusted reviewer ---- */
+
+/* The only block on either page that says something about the reader rather
+   than about a word, so it is the only one with a coloured edge — the green of
+   the verified badge, because a grant is exactly the thing that leads to one.
+   Everything inside still hangs off the same left axis as the rest of the page:
+   being addressed personally is not a reason to be shouted at. */
+.reviewer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--verified);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+}
+
+.reviewer p {
+  margin: 0;
+}
+
+/* ---- report dialog ---- */
+
+.report-dialog {
+  width: min(28rem, calc(100vw - 2rem));
+  /* The proposal form makes this dialog tall; on a phone it scrolls rather
+     than pushing its own content off the screen — and reaching its end must
+     not hand the scroll to the page behind it. */
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+  color: var(--ink);
+}
+
+.report-dialog::backdrop {
+  background: rgb(0 0 0 / 45%);
+}
+
+.report-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+/* Sticky so the close button survives scrolling — it is the only way out
+   besides Esc, which a phone does not have. */
+.report-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: -1.25rem -1.25rem 0;
+  padding: 1.25rem 1.25rem 0.6rem;
+  background: var(--panel);
+}
+
+.report-body h2 {
+  margin: 0;
+  font-size: var(--text-md);
+}
+
+.report-x {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin: -0.35rem -0.35rem 0 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--muted);
+  /* Outside the text scale on purpose: this is the × glyph sized to fill its
+     2rem tap target, not a piece of text. */
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.report-x:hover,
+.report-x:focus-visible {
+  color: var(--ink);
+  background: var(--neutral-bg);
+}
+
+/* The candidate under discussion, echoing the chip it was flagged from —
+   including its centre line. The row grows out to both sides from the script
+   rather than starting at the left edge, so the specimen reads the same way
+   here as it did on the card the contributor flagged it from. */
+.report-target {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  padding: 0.75rem 0.85rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.report-word {
+  font-weight: 600;
+}
+
+.report-trad {
+  writing-mode: vertical-lr;
+  max-height: 7rem;
+  font-size: var(--text-mong);
+  line-height: 1.35;
+}
+
+.report-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: var(--text-sm);
+}
+
+.report-question {
+  margin: 0;
+}
+
+/* A stack of full-width answers, in the dialog and on the queue page alike.
+   Named for what it is rather than where it first appeared: asking someone a
+   question and offering them the answers is one act, and it should not look
+   like two different products depending on which page it happens on. */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.choice {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--ink);
+}
+
+.choice:hover,
+.choice:focus-visible {
+  border-color: var(--accent);
+}
+
+.choice-title {
+  font-weight: 600;
+}
+
+.choice-hint {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.choice:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* ---- verification queue ---- */
+
+.queue {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.queue-progress {
+  font-weight: 600;
+  color: var(--muted);
+  /* "3 / 10" ticks up on every answer; proportional digits make the whole
+     row shiver as 1 becomes 4. */
+  font-variant-numeric: tabular-nums;
+}
+
+/* One other spelling sits beside the specimen rather than under it: with
+   exactly two forms the comparison IS the question, and vertical script is
+   read side by side or not at all. The ratio is the hierarchy — the specimen
+   is what you answer about, the aside is only context. */
+.queue-compare {
+  display: flex;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+
+.queue-compare > .queue-card {
+  flex: 3 1 0;
+  min-width: 0;
+}
+
+.queue-aside {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.queue-aside .queue-alt {
+  flex: 1;
+  justify-content: center;
+}
+
+/* Below this the two cards would each be too narrow for a column of Mongolian,
+   so they stack — and the aside keeps its label, which is what stops it from
+   reading as a second thing to answer. */
+@media (max-width: 34rem) {
+  .queue-compare {
+    flex-direction: column;
+  }
+}
+
+/* The specimen under review. Centred like a chip on the converter, and given
+   more room than one: on this page the spelling is not a choice among several,
+   it is the whole question. */
+.queue-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 1rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.queue-word {
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+
+.queue-trad {
+  writing-mode: vertical-lr;
+  max-height: 12rem;
+  font-size: var(--text-mong-lg);
+  line-height: 1.35;
+}
+
+.queue-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: var(--text-xs);
+}
+
+/* Everything above this rule is what you are looking at; everything below it
+   is what is being asked. The question and its answers have to be one block
+   with nothing between them — when the sibling candidates sat in that gap,
+   readers could not tell which spelling the buttons applied to. */
+.queue-ask {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--border);
+}
+
+.queue-question {
+  margin: 0;
+  font-size: var(--text-md);
+}
+
+.queue-reason {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.queue-alts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* Siblings are context, not options: they are shown so a reader can see what
+   the entry already offers, and they are deliberately smaller and unclickable
+   so nobody reads them as the answer. */
+.queue-alt-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.queue-alt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.5rem 0.7rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+}
+
+.queue-alt-trad {
+  writing-mode: vertical-lr;
+  max-height: 7rem;
+  font-size: var(--text-mong);
+  line-height: 1.35;
+}
+
+/* An answer already given, shown as a state rather than an action — the same
+   accent border the converter uses for a picked chip, because it means the
+   same thing: this is the one you chose, and you may choose again. */
+.choice.chosen {
+  border-color: var(--accent);
+  background: var(--panel);
+}
+
+.choice.chosen .choice-title::after {
+  content: " ✓";
+  color: var(--accent);
+}
+
+/* Moving through the set. Quiet, because navigation is not the work — and
+   always both directions, so going back is as ordinary as going on.
+
+   It sits at the top of the section for one reason: nothing above it changes
+   height. Below the specimen, a long word or an open spelling field moved
+   these two buttons down the screen on every question, and paging through a
+   set became a hunt for the control you had just used. */
+.queue-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  /* Pulls the row up against the page's section gap: it is a control strip for
+     what follows, not a sibling of it. */
+  margin-bottom: -0.4rem;
+}
+
+.queue-step {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.queue-step:hover:not(:disabled),
+.queue-step:focus-visible:not(:disabled) {
+  color: var(--ink);
+  background: var(--neutral-bg);
+}
+
+.queue-step:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* The set before it is sent: every answer visible at once, and every row a way
+   back to the question it came from. This is the page that makes a misclick
+   survivable. */
+.queue-review {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.queue-review-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--ink);
+  text-align: left;
+}
+
+.queue-review-row:hover,
+.queue-review-row:focus-visible {
+  border-color: var(--accent);
+}
+
+.queue-review-word {
+  flex: 1;
+  font-weight: 600;
+}
+
+/* Horizontal here on purpose: a row is an index entry, not a specimen, and a
+   vertical column would make every row three lines tall. */
+.queue-review-trad {
+  flex: 2;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--muted);
+}
+
+.queue-review-answer {
+  flex: 0 0 auto;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  padding: 0.1rem 0.55rem;
+}
+
+.queue-review-answer.yes {
+  color: var(--verified);
+  background: var(--verified-bg);
+}
+
+.queue-review-answer.no {
+  color: var(--warn);
+  background: var(--warn-bg);
+}
+
+.queue-review-answer.none {
+  color: var(--neutral);
+  background: var(--neutral-bg);
+}
+
+.report-status {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+.report-status-error {
+  color: var(--error);
+}
+
+.report-consent {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+/* Receipt for what is already in the mailbox. It closes one section of the
+   dialog so the next one can be read as optional — the contributor can stop
+   here, and the block has to look like a full stop rather than a status line
+   on the way to something else. */
+.report-receipt {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.65rem 0.8rem;
+  /* Same paper-and-hairline treatment as .report-target above it. The green
+     tint this used to carry belongs to verification — a checked spelling —
+     and spending it on "your message was sent" made the one meaningful colour
+     in the product mean two things. Only the ✓ stays green. */
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--ink);
+  font-size: var(--text-sm);
+}
+
+.report-receipt-mark {
+  flex: 0 0 auto;
+  color: var(--verified);
+  font-weight: 700;
+}
+
+/* Everything past the receipt is a bonus, and the rule is enough to say so.
+   The caption that used to sit here spelled out "optional" over a form the
+   layout had already marked optional. */
+.report-optional {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ---- proposal widget (correction / missing meaning / unknown word) ---- */
+
+.proposal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.proposal-prompt {
+  margin: 0;
+}
+
+.proposal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+
+.proposal-input {
+  font: inherit;
+  font-size: var(--text-md);
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0.65rem;
+}
+
+.proposal-input:disabled {
+  opacity: 0.6;
+}
+
+/* A text input can only lay Mongolian on its side. The preview shows the
+   proposal the way it will actually be written, which is the only way a
+   contributor can check what they pasted. */
+.proposal-preview-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.5rem 0.65rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.proposal-preview {
+  writing-mode: vertical-lr;
+  max-height: 7rem;
+  font-size: var(--text-mong);
+  line-height: 1.35;
+}
+
+.proposal-hint,
+.proposal-error {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+.proposal-hint {
+  color: var(--muted);
+}
+
+.proposal-error {
+  color: var(--error);
+  font-weight: 600;
+}
+
+.proposal-actions {
+  display: flex;
+}
+
+/* Full width: it is the one action of the form, and on a phone it is the
+   easiest thing to hit. Vertical padding matches .choice so the
+   dialog's full-width controls line up.
+
+   Ink rather than accent: --accent is the link colour and appears everywhere
+   as a line — focus rings, the picked chip's border, the ambiguity underline —
+   and never as a fill. Filling a button with it read as a stray link. Ink is
+   the one surface allowed to be solid, which is what makes it the primary
+   action without any extra colour in the palette. */
+.proposal-submit {
+  flex: 1;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-md);
+  background: var(--ink);
+  color: var(--panel);
+  padding: 0.6rem 1.1rem;
+  font-weight: 600;
+}
+
+.proposal-submit:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.proposal-submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* ---- expert review ---- */
+
+/* Present to a screen reader, absent to everything else. The one thing on the
+   review page that needs it: the code-point breakdown renders as columns,
+   which reads aloud as an unpunctuated stream, so the same information is
+   also emitted once as a sentence. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* A spelling and the letters it is made of, as one object.
+
+   The layout is the argument. The script sits above its own breakdown, sharing
+   a centre line, because they are two views of one thing and a reviewer has to
+   read them together — several distinct Mongolian letters share identical
+   glyphs, so the rendered form alone cannot be judged. Putting the breakdown
+   in a tooltip, an accordion, or a smaller column beside would make the
+   checkable half optional, and the checkable half is the point. */
+.spell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 0.5rem;
+}
+
+.spell-script {
+  writing-mode: vertical-lr;
+  max-height: 11rem;
+  font-size: var(--text-mong-lg);
+  line-height: 1.35;
+}
+
+/* Wraps rather than scrolls: a spelling long enough to overflow is exactly
+   the one worth reading carefully, and a horizontal scroller hides its tail
+   behind a gesture nobody makes on a page they are concentrating on. */
+.spell-points {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.point {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.05rem;
+  min-width: 3.2rem;
+  padding: 0.25rem 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  font-size: var(--text-xs);
+  line-height: 1.25;
+}
+
+/* The invisible ones — the free variation selectors, the vowel separator, the
+   joiner that makes a written-apart suffix a suffix. Two spellings differing
+   only in one of these are identical on screen, so this is where a wrong
+   encoding hides. Dashed, because the border is standing in for a glyph that
+   does not exist rather than framing one that does. */
+.point.invisible {
+  border-style: dashed;
+  background: var(--neutral-bg);
+}
+
+.point-name {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.point-code {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.review-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.review-count {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.review-blurb {
+  color: var(--muted);
+  font-size: var(--text-sm);
+  max-width: 46rem;
+}
+
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.review-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+/* The Cyrillic and its labels stay on the page's left axis. Only the specimen
+   below centres — it is a display object, not text to read. */
+.review-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.review-word {
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+
+.review-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-size: var(--text-xs);
+}
+
+.review-evidence {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+.review-labels {
+  font-variant-numeric: tabular-nums;
+}
+
+.review-siblings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.review-sibling {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Smaller than the row's own specimen, and deliberately so: a sibling is
+   context for the decision, never a second thing to decide. Same reason it is
+   below a hairline rather than beside the buttons. */
+.review-sibling .spell-script {
+  max-height: 8rem;
+  font-size: var(--text-mong);
+}
+
+.review-sense {
+  padding-top: 0.3rem;
+}
+
+.review-send {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  position: sticky;
+  /* Sticks to the bottom because the list is long and the decision to send is
+     made repeatedly while working down it. A send button that lives only at
+     the end of four hundred rows is one a reviewer has to go looking for. */
+  bottom: 0;
+  padding: 0.9rem 0;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+
+.review-held {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+/* ---- footer ---- */
+
+/* A colophon, not a link row: what this is on the left, where everything
+   lives under captions on the right, the licences last. Shared by all three
+   pages so the site always ends the same way. */
+footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+  font-size: var(--text-sm);
+}
+
+/* The brand block takes the spare width, so the link groups sit together at
+   the right on a wide screen; on a phone the row wraps into a stack and
+   everything returns to the one left axis. */
+.footer-cols {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.75rem 3.5rem;
+}
+
+.footer-brand {
+  flex: 1 1 15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.footer-tag {
+  margin: 0;
+  color: var(--muted);
+}
+
+.footer-group {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.footer-legal {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
